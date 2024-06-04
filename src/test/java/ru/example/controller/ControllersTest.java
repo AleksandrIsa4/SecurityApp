@@ -72,7 +72,7 @@ class ControllersTest {
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "Jon123", authorities = "ROLE_USER")
+    @WithMockUser(username = "Jon123", authorities = "ROLE_MODERATOR")
     void getWithTokenPrivate() {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .get("/private"))
@@ -132,7 +132,7 @@ class ControllersTest {
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "Jon123", authorities = "ROLE_ADMIN")
+    @WithMockUser(username = "Jon123", authorities = "ROLE_SUPER_ADMIN")
     void getWithTokenAdmin() {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .get("/admin"))
@@ -144,7 +144,7 @@ class ControllersTest {
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "Jon123", authorities = "ROLE_USER")
+    @WithMockUser(username = "Jon123", authorities = "ROLE_MODERATOR")
     void getWithTokenUserToAdmin() {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/admin"))
@@ -154,7 +154,7 @@ class ControllersTest {
 
     @Test
     @SneakyThrows
-    @WithMockUser(username = "Jon123", authorities = "ROLE_ADMIN")
+    @WithMockUser(username = "Jon123", authorities = "ROLE_SUPER_ADMIN")
     void getWithTokenPublic() {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .get("/public"))
