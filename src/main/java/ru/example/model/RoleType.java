@@ -1,5 +1,5 @@
 package ru.example.model;
 
 public enum RoleType {
-    ROLE_USER, ROLE_ADMIN
+    ROLE_MODERATOR, ROLE_SUPER_ADMIN
 }

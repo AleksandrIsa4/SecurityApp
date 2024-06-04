@@ -20,6 +20,8 @@ public class JwtService {
 
     private static final String jwtSigningKey = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
+    private static final long TIME_LIFE=10000000;
+
     /**
      * Извлечение имени пользователя из токена
      *
@@ -81,7 +83,7 @@ public class JwtService {
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 100000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + TIME_LIFE))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 

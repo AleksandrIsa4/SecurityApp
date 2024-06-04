@@ -62,12 +62,18 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
                 // Настройка доступа к конечным точкам
                 .authorizeHttpRequests(request -> request
                         // Можно указать конкретный путь, * - 1 уровень вложенности, ** - любое количество уровней вложенности
-                        .requestMatchers("/user/**", "/user").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/admin/**", "/admin").hasRole("ADMIN")
+                        .requestMatchers("/user/**", "/user").hasAnyRole("MODERATOR", "SUPER_ADMIN")
+                        .requestMatchers("/admin/**", "/admin").hasRole("SUPER_ADMIN")
                         .requestMatchers("/private/**", "/private").authenticated()
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/auth/**", "/**").permitAll()
                         .anyRequest().authenticated())
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .permitAll())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
