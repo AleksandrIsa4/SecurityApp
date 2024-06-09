@@ -26,7 +26,7 @@ public class AuthenticationController {
     public TokenResponse signUp(@RequestBody @Valid CreateUserRequest request) {
         TokenResponse tokenResponse = authenticationService.signUp(request);
         log.info("Регистрация пользователя {}", request.getUsername());
-        return authenticationService.signUp(request);
+        return tokenResponse;
     }
 
     @Operation(summary = "Авторизация пользователя")

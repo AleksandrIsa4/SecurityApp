@@ -1,6 +1,7 @@
 package ru.example.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -8,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.example.entity.UserEntity;
+import ru.example.exceptions.UnauthorizedException;
 
 import java.security.Key;
 import java.util.Date;
@@ -114,26 +116,15 @@ public class JwtService {
      * @return данные
      */
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(getSigningKey()).build().parseClaimsJws(token)
-                .getBody();
+        try{
+            return Jwts.parser().setSigningKey(getSigningKey()).build().parseClaimsJws(token)
+                    .getBody();
+        } catch (JwtException e){
+            throw new UnauthorizedException("Токен не совпадает");
+        }
     }
 
-/*    private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-    }*/
 
-/*    private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }*/
 
     /**
      * Получение ключа для подписи токена

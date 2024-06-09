@@ -58,6 +58,20 @@ public class ExceptionsHandler {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ApiError handleNotFound(final UnauthorizedException unauthorizedException) {
+        log.warn("403 {}", unauthorizedException.getMessage());
+        unauthorizedException.printStackTrace(pw);
+        return ApiError.builder()
+                .errors(Collections.singletonList(sw.toString()))
+                .status(HttpStatus.FORBIDDEN)
+                .reason("Forbidden")
+                .message(unauthorizedException.getMessage())
+                .timestamp(LocalDateTime.now().toString())
+                .build();
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiError handleInternalServerError(final Throwable throwable) {
         log.error("500 {}", throwable.getMessage(), throwable);

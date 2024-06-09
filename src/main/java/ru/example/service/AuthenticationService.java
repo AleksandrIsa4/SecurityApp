@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.example.dto.CreateUserRequest;
@@ -73,10 +74,10 @@ public class AuthenticationService {
             throw new DataNotFoundException("Неправильно введен логин или пароль");
         }
 
-        var user = userService
+        UserDetails user = userService
                 .userDetailsService()
                 .loadUserByUsername(request.getUsername());
-        var jwt = jwtService.generateToken(user);
+        String jwt = jwtService.generateToken(user);
         return new TokenResponse(jwt);
     }
 
